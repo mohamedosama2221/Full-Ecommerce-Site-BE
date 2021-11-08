@@ -1,91 +1,64 @@
 const Product = require("../models/product");
 const { StatusCodes } = require("http-status-codes");
+const {
+  BadRequestError,
+  NotFoundError,
+  UnAuthorizedError,
+  UnAuthenticatedError,
+} = require("../errors");
 
 const getAllProducts = async (req, res) => {
-  try {
-    const products = await Product.find({});
-    return res
-      .status(StatusCodes.OK)
-      .json({ success: true, data: products, nbOfHits: products.length });
-  } catch (error) {
-    return res
-      .status(StatusCodes.NOT_FOUND)
-      .json({ success: false, msg: error });
+  const products = await Product.find({});
+  if (!products.length) {
+    throw new NotFoundError("No products found");
   }
+  return res
+    .status(StatusCodes.OK)
+    .json({ success: true, data: products, nbOfHits: products.length });
 };
 
 const createProduct = async (req, res) => {
-  try {
-    await Product.create(req.body);
-    return res
-      .status(StatusCodes.CREATED)
-      .json({ success: true, msg: "product created successfully" });
-  } catch (error) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ success: false, msg: error });
-  }
+  await Product.create(req.body);
+  return res
+    .status(StatusCodes.CREATED)
+    .json({ success: true, msg: "product created successfully" });
 };
 
 const getSingleProduct = async (req, res) => {
   const { id } = req.params;
 
-  try {
-    const product = await Product.findOne({ _id: id });
+  const product = await Product.findOne({ _id: id });
 
-    if (!product) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ success: true, data: [], msg: "product not found" });
-    }
-    return res.status(StatusCodes.OK).json({ success: true, data: product });
-  } catch (error) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ success: false, msg: error });
+  if (!product) {
+    throw new NotFoundError("No product found");
   }
+  return res.status(StatusCodes.OK).json({ success: true, data: product });
 };
 
 const updateProduct = async (req, res) => {
   const { id } = req.params;
-  try {
-    const product = await Product.findOneAndUpdate({ _id: id }, req.body, {
-      runValidators: true,
-      useFindAndModify: false,
-      new: true,
-    });
+  const product = await Product.findOneAndUpdate({ _id: id }, req.body, {
+    runValidators: true,
+    useFindAndModify: false,
+    new: true,
+  });
 
-    if (!product) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ success: true, data: [], msg: "product not found" });
-    }
-    return res.status(StatusCodes.OK).json({ success: true, data: product });
-  } catch (error) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ success: false, msg: error });
+  if (!product) {
+    throw new NotFoundError("No product found");
   }
+  return res.status(StatusCodes.OK).json({ success: true, data: product });
 };
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
-  try {
-    const product = await Product.findOneAndDelete({ _id: id });
+  const product = await Product.findOneAndDelete({ _id: id });
 
-    if (!product) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ success: true, data: [], msg: "product not found" });
-    }
-    return res
-      .status(StatusCodes.OK)
-      .json({ success: true, msg: "product is successfully deleted" });
-  } catch (error) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ success: false, msg: error });
+  if (!product) {
+    throw new NotFoundError("No product found");
   }
+  return res
+    .status(StatusCodes.OK)
+    .json({ success: true, msg: "product is successfully deleted" });
 };
 
 module.exports = {
