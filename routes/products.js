@@ -12,6 +12,6 @@ const {
 router.get("/", getAllProducts);
 router.post("/create", createProduct);
 router.get("/:id", getSingleProduct);
-router.patch("/:id", updateProduct);
+router.patch("/admin/:id", updateProduct);
 
 module.exports = router;

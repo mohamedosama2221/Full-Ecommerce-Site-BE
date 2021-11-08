@@ -49,18 +49,18 @@ const getSingleProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const product = await Product.updateOne(
-      { _id: id },
-      { ...req.body },
-      { runValidators: true }
-    );
+    const product = await Product.findOneAndUpdate({ _id: id }, req.body, {
+      runValidators: true,
+      useFindAndModify: false,
+      new: true,
+    });
 
     if (!product) {
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ success: true, data: [], msg: "product not found" });
     }
-    return res.status(StatusCodes.OK).json({ success: true, data: req.body });
+    return res.status(StatusCodes.OK).json({ success: true, data: product });
   } catch (error) {
     return res
       .status(StatusCodes.BAD_REQUEST)
