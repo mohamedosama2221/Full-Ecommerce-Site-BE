@@ -16,6 +16,7 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "chalk": "^4.1.2",
     "nodemon": "^2.0.14"
   },
   "scripts": {
