@@ -1,11 +1,6 @@
 const Product = require("../models/product");
 const { StatusCodes } = require("http-status-codes");
-const {
-  BadRequestError,
-  NotFoundError,
-  UnAuthorizedError,
-  UnAuthenticatedError,
-} = require("../errors");
+const { NotFoundError } = require("../errors");
 
 const getAllProducts = async (req, res) => {
   const products = await Product.find({});
@@ -18,7 +13,7 @@ const getAllProducts = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  await Product.create(req.body);
+  const product = await Product.create(req.body);
   return res
     .status(StatusCodes.CREATED)
     .json({ success: true, msg: "product created successfully" });
