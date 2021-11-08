@@ -13,7 +13,7 @@ const getAllProducts = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const product = await Product.create(req.body);
+  await Product.create(req.body);
   return res
     .status(StatusCodes.CREATED)
     .json({ success: true, msg: "product created successfully" });
