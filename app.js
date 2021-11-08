@@ -15,8 +15,7 @@ const app = express();
 const connectDB = require("./db/connection");
 
 //custom middleware imports
-const notFound = require("./middleware/route-not-found");
-const errorHandler = require("./middleware/error-handler");
+const { notFoundMiddleware, errorHandlerMiddleware } = require("./middlewares");
 
 //build in middleware
 app.use(express.json());
@@ -30,8 +29,8 @@ const productRoutes = require("./routes/products");
 app.use("/api/v1/products", productRoutes);
 
 //custom middleware
-app.use(notFound);
-app.use(errorHandler);
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 //starting server
 const start = async () => {
