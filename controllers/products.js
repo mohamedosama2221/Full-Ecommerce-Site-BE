@@ -79,11 +79,14 @@ const getAllProducts = async (req, res) => {
 
   const products = await result;
 
+  const productsCount = await Product.countDocuments();
+
   return res.status(StatusCodes.OK).json({
     success: true,
     page: pageNumber,
     nbOfHits: products.length,
     data: products,
+    productsCount,
   });
 };
 
