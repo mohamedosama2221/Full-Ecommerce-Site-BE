@@ -14,6 +14,10 @@ const connectDB = require("./db/connection");
 //port
 const port = process.env.PORT || 3000;
 
+//routes
+const productRoutes = require("./routes/products");
+
+app.use("/api/v1/", productRoutes);
 //starting server
 
 const start = async () => {
