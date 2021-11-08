@@ -11,13 +11,16 @@ const app = express();
 //DB
 const connectDB = require("./db/connection");
 
+//middleware
+app.use(express.json());
+
 //port
 const port = process.env.PORT || 3000;
 
 //routes
 const productRoutes = require("./routes/products");
 
-app.use("/api/v1/", productRoutes);
+app.use("/api/v1/products", productRoutes);
 //starting server
 
 const start = async () => {
