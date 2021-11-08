@@ -6,10 +6,12 @@ const {
   getAllProducts,
   createProduct,
   getSingleProduct,
+  updateProduct,
 } = require("../controllers/products");
 
 router.get("/", getAllProducts);
 router.post("/create", createProduct);
 router.get("/:id", getSingleProduct);
+router.patch("/:id", updateProduct);
 
 module.exports = router;

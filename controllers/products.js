@@ -46,4 +46,31 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
-module.exports = { getAllProducts, createProduct, getSingleProduct };
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await Product.updateOne(
+      { _id: id },
+      { ...req.body },
+      { runValidators: true }
+    );
+
+    if (!product) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ success: true, data: [], msg: "product not found" });
+    }
+    return res.status(StatusCodes.OK).json({ success: true, data: req.body });
+  } catch (error) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ success: false, msg: error });
+  }
+};
+
+module.exports = {
+  getAllProducts,
+  createProduct,
+  getSingleProduct,
+  updateProduct,
+};
