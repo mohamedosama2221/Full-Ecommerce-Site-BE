@@ -7,6 +7,9 @@ require("dotenv").config();
 //errors handling
 require("express-async-errors");
 
+//cookie Parser
+const cookieParser = require("cookie-parser");
+
 //express
 const express = require("express");
 const app = express();
@@ -15,10 +18,15 @@ const app = express();
 const connectDB = require("./db/connection");
 
 //custom middleware imports
-const { notFoundMiddleware, errorHandlerMiddleware } = require("./middlewares");
+const {
+  notFoundMiddleware,
+  errorHandlerMiddleware,
+  authMiddleware,
+} = require("./middlewares");
 
 //build in middleware
 app.use(express.json());
+app.use(cookieParser());
 
 //port
 const port = process.env.PORT || 3000;
