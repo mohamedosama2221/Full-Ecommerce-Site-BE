@@ -32,7 +32,7 @@ app.use("/api/v1/", authRoutes);
 
 //custom middleware
 app.use(notFoundMiddleware);
-// app.use(errorHandlerMiddleware);
+app.use(errorHandlerMiddleware);
 
 //starting server
 const start = async () => {
