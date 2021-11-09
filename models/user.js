@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const User = mongoose.Schema(
   {
     name: {
@@ -23,7 +26,6 @@ const User = mongoose.Schema(
     },
 
     avatar: {
-      required: [true, "Please add a profile image"],
       public_id: {
         type: String,
         required: true,
@@ -48,5 +50,19 @@ const User = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+User.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  const salt = await bcryptjs.genSalt(10);
+  this.password = await bcryptjs.hash(this.password, salt);
+});
+
+User.methods.createJWT = function () {
+  return jwt.sign(
+    { userId: this._id, name: this.name, email: this.email },
+    process.env.JWT_SECRET_KEY,
+    { expiresIn: process.env.JWT_EXPIRE }
+  );
+};
 
 module.exports = mongoose.model("User", User);
