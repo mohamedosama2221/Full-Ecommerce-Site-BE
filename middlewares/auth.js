@@ -1,4 +1,8 @@
-const { UnAuthenticatedError } = require("../errors");
+const {
+  UnAuthenticatedError,
+  BadRequestError,
+  UnAuthorizedError,
+} = require("../errors");
 const verifyToken = require("../utils/verifyToken");
 const User = require("../models/user");
 
@@ -23,4 +27,17 @@ const authMiddleware = async (req, res, next) => {
     throw new UnAuthenticatedError("authentication failed , token is invalid");
   }
 };
-module.exports = authMiddleware;
+
+const authorizedRolesMiddleware = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.rule)) {
+      throw new UnAuthorizedError(
+        "this user isn't authorized to access this page"
+      );
+    }
+
+    next();
+  };
+};
+
+module.exports = { authorizedRolesMiddleware, authMiddleware };
