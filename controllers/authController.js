@@ -32,7 +32,16 @@ const loginUser = async (req, res) => {
   sendToken(user, StatusCodes.OK, res, "User login successfully");
 };
 
+const logOut = async (req, res) => {
+  req.user = null;
+  res
+    .status(StatusCodes.OK)
+    .clearCookie("token")
+    .json({ success: true, msg: "User logout successfully" });
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  logOut,
 };

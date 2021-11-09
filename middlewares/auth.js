@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
   }
 
   try {
-    const { userId } = verifyToken;
+    const { userId } = verifyToken(token);
 
     const user = await User.findOne({ _id: userId });
 
