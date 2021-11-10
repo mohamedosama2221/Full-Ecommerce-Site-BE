@@ -34,7 +34,7 @@ const loginUser = async (req, res) => {
 
 const getCurrentUser = async (req, res) => {
   const { _id: userId } = req.user;
-  const user = await User.findOne({ _id: userId });
+  const user = await User.findOne({ _id: userId }).select("-password");
   res.status(StatusCodes.OK).json({ user });
 };
 
