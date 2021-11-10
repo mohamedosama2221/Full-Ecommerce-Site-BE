@@ -31,7 +31,6 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 
 //routes
-// const productRoutes = require("./routes/products");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const productRoutes = require("./routes/products");
