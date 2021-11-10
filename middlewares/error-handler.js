@@ -5,6 +5,11 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
     message: err.message || "something went wrong please try again",
   };
+  if (process.env.NODE_ENV === "DEVELOPMENT") {
+    return res
+      .status(errorObject.statusCode)
+      .json({ success: false, msg: err });
+  }
   if (err.name === "ValidationError") {
     errorObject.message = Object.values(err.errors)
       .map((item) => item.message)

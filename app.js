@@ -18,15 +18,14 @@ const app = express();
 const connectDB = require("./db/connection");
 
 //custom middleware imports
-const {
-  notFoundMiddleware,
-  errorHandlerMiddleware,
-  authMiddleware,
-} = require("./middlewares");
+const { notFoundMiddleware, errorHandlerMiddleware } = require("./middlewares");
 
 //build in middleware
 app.use(express.json());
 app.use(cookieParser());
+
+//build in middleware
+app.use(express.json());
 
 //port
 const port = process.env.PORT || 3000;
@@ -35,10 +34,11 @@ const port = process.env.PORT || 3000;
 // const productRoutes = require("./routes/products");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
+const productRoutes = require("./routes/products");
 
-// app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/", authRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/products", productRoutes);
 
 //custom middleware
 app.use(notFoundMiddleware);
