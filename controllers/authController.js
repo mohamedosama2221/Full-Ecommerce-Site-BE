@@ -2,7 +2,11 @@ const User = require("../models/user");
 const { StatusCodes } = require("http-status-codes");
 const { sendToken } = require("../utils/jwtToken");
 
-const { BadRequestError, UnAuthenticatedError } = require("../errors");
+const {
+  BadRequestError,
+  UnAuthenticatedError,
+  NotFoundError,
+} = require("../errors");
 
 const registerUser = async (req, res) => {
   const user = await User.create(req.body);
@@ -38,6 +42,21 @@ const getCurrentUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user });
 };
 
+const updateCurrentUser = async (req, res) => {
+  const { userId } = req.params;
+  const user = await User.findOneAndUpdate({ _id: userId }, req.body, {
+    runValidators: true,
+    new: true,
+    useFindAndModify: false,
+  }).select("-password");
+
+  if (!user) {
+    throw new NotFoundError(`there is no user with id ${userId}`);
+  }
+
+  res.status(StatusCodes.OK).json({ user });
+};
+
 const logOut = async (req, res) => {
   req.user = null;
   res
@@ -51,4 +70,5 @@ module.exports = {
   loginUser,
   logOut,
   getCurrentUser,
+  updateCurrentUser,
 };
