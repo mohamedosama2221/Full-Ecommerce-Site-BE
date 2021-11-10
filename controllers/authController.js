@@ -32,6 +32,12 @@ const loginUser = async (req, res) => {
   sendToken(user, StatusCodes.OK, res, "User login successfully");
 };
 
+const getCurrentUser = async (req, res) => {
+  const { _id: userId } = req.user;
+  const user = await User.findOne({ _id: userId });
+  res.status(StatusCodes.OK).json({ user });
+};
+
 const logOut = async (req, res) => {
   req.user = null;
   res
@@ -44,4 +50,5 @@ module.exports = {
   registerUser,
   loginUser,
   logOut,
+  getCurrentUser,
 };

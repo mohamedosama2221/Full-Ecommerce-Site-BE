@@ -3,7 +3,9 @@ const {
   BadRequestError,
   UnAuthorizedError,
 } = require("../errors");
+
 const verifyToken = require("../utils/verifyToken");
+
 const User = require("../models/user");
 
 const authMiddleware = async (req, res, next) => {
@@ -40,4 +42,4 @@ const authorizedRolesMiddleware = (...roles) => {
   };
 };
 
-module.exports = { authorizedRolesMiddleware, authMiddleware };
+module.exports = { authMiddleware, authorizedRolesMiddleware };
