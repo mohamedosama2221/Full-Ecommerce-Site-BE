@@ -13,5 +13,5 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logOut);
 router.get("/user", authMiddleware, getCurrentUser);
-router.patch("/user/update/:userId", authMiddleware, updateCurrentUser);
+router.patch("/user/update", authMiddleware, updateCurrentUser);
 module.exports = router;

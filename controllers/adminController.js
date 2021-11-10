@@ -42,4 +42,23 @@ const getSpecificUser = async (req, res) => {
   });
 };
 
-module.exports = { getAllUsers, getSpecificUser };
+const updateUser = async (req, res) => {
+  const { userId } = req.params;
+
+  const user = await User.findOneAndUpdate({ _id: userId }, req.body, {
+    runValidators: true,
+    new: true,
+    useFindAndModify: false,
+  }).select("-password");
+
+  if (!user) {
+    throw new NotFoundError(`there is no user with id ${userId}`);
+  }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    user,
+  });
+};
+
+module.exports = { getAllUsers, getSpecificUser, updateUser };

@@ -43,7 +43,10 @@ const getCurrentUser = async (req, res) => {
 };
 
 const updateCurrentUser = async (req, res) => {
-  const { userId } = req.params;
+  const { _id: userId } = req.user;
+
+  if (req.user.rule === "user") req.body.rule = "user";
+
   const user = await User.findOneAndUpdate({ _id: userId }, req.body, {
     runValidators: true,
     new: true,

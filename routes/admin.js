@@ -4,6 +4,7 @@ const { authMiddleware, authorizedRolesMiddleware } = require("../middlewares");
 const {
   getAllUsers,
   getSpecificUser,
+  updateUser,
 } = require("../controllers/adminController");
 
 router.get(
@@ -18,6 +19,13 @@ router.get(
   authMiddleware,
   authorizedRolesMiddleware("admin"),
   getSpecificUser
+);
+
+router.patch(
+  "/users/update/:userId",
+  authMiddleware,
+  authorizedRolesMiddleware("admin"),
+  updateUser
 );
 
 module.exports = router;
