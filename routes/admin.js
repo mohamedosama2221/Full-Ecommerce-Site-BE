@@ -8,6 +8,12 @@ const {
   deleteUser,
 } = require("../controllers/adminController");
 
+const {
+  updateProduct,
+  deleteProduct,
+  createProduct,
+} = require("../controllers/products");
+
 router.get(
   "/users",
   authMiddleware,
@@ -36,4 +42,24 @@ router.delete(
   deleteUser
 );
 
+router.patch(
+  "/products/update/:id",
+  authMiddleware,
+  authorizedRolesMiddleware("admin"),
+  updateProduct
+);
+
+router.delete(
+  "/products/delete/:id",
+  authMiddleware,
+  authorizedRolesMiddleware("admin"),
+  deleteProduct
+);
+
+router.post(
+  "/products/create",
+  authMiddleware,
+  authorizedRolesMiddleware("admin"),
+  createProduct
+);
 module.exports = router;
