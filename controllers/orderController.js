@@ -62,7 +62,7 @@ const getAllOrders = async (req, res) => {
 
   const currentPage = Number(page) || 1;
 
-  result = result.skip(limit * (page - 1)).limit(limit);
+  result = result.skip(limit * (currentPage - 1)).limit(limit);
 
   const orders = await result;
 
