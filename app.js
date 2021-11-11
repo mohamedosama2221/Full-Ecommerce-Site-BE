@@ -35,10 +35,12 @@ const port = process.env.PORT || 3000;
 // const productRoutes = require("./routes/products");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
+const orderRoutes = require("./routes/order");
 
 // app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/", authRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/order", orderRoutes);
 
 //custom middleware
 app.use(notFoundMiddleware);
