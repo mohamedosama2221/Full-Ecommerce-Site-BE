@@ -75,4 +75,25 @@ const getAllOrders = async (req, res) => {
   });
 };
 
-module.exports = { createOrder, getUserOrders, getSingleOrders, getAllOrders };
+const deleteOrder = async (req, res) => {
+  const { id: orderID } = req.params;
+
+  const order = await Order.findById(orderID);
+
+  if (!order) {
+    throw new NotFoundError(`there is no order with ID ${orderID}`);
+  }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    msg: "order has been deleted successfully",
+  });
+};
+
+module.exports = {
+  createOrder,
+  getUserOrders,
+  getSingleOrders,
+  getAllOrders,
+  deleteOrder,
+};

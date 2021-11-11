@@ -8,7 +8,7 @@ const {
   deleteUser,
 } = require("../controllers/adminController");
 
-const { getAllOrders } = require("../controllers/orderController");
+const { getAllOrders, deleteOrder } = require("../controllers/orderController");
 
 router.get(
   "/users",
@@ -43,6 +43,12 @@ router.get(
   authMiddleware,
   authorizedRolesMiddleware("admin"),
   getAllOrders
+);
+router.delete(
+  "/orders/delete",
+  authMiddleware,
+  authorizedRolesMiddleware("admin"),
+  deleteOrder
 );
 
 module.exports = router;
